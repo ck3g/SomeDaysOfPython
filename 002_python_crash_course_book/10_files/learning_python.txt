@@ -1,0 +1,7 @@
+In Python you can print to the console with the print() function.
+In Python you can store data in variables.
+In Python you can use variables to store strings.
+In Python you can concatenate strings with the + operator.
+In Python you can use the title() method to capitalize the first letter of a string.
+In Python you can create classes with the class keyword.
+In Python you can create objects from classes.
