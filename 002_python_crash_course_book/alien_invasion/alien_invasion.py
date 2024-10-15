@@ -5,6 +5,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 # pylint: disable=no-member
@@ -31,6 +32,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -94,9 +98,16 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.ship.blitme()
+        self.aliens.draw(self.screen)
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+
+    def _create_fleet(self):
+        """Creat the fleet of aliens."""
+        # Make an alien
+        alien = Alien(self)
+        self.aliens.add(alien)
 
 
 if __name__ == "__main__":
