@@ -12,6 +12,10 @@ loses a ship. If the player loses three ships, the game ends.
 
 
 
+<img src="./game_screenshot.png" width="600" />
+
+
+
 ## Dependencies
 
 ### Installing Pygame
