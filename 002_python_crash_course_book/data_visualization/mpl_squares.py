@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 input_values = [1, 2, 3, 4, 5]
 squares = [1, 4, 9, 16, 25]
 
+# plt.style.available - returns the list of available styles
+plt.style.use("Solarize_Light2")
+
 fig, ax = plt.subplots()
 ax.plot(input_values, squares, linewidth=3)
 
