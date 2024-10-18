@@ -1,4 +1,5 @@
 import plotly.express as px
+from pathlib import Path
 
 from die import Die
 
@@ -28,4 +29,4 @@ fig = px.bar(x=poss_results, y=frequencies, title=title, labels=labels)
 # Further customize chart.
 fig.update_layout(xaxis_dtick=1)
 
-fig.show()
+fig.write_html(f"{Path(__file__).resolve().parent}/dice_visual_d6d10.html")
