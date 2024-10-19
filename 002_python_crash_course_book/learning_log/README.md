@@ -26,3 +26,38 @@ source ll_env/bin/activate
 ```
 deactivate
 ```
+
+
+## Installing Django
+
+```
+pip install --upgrade pip
+pip install django
+```
+
+
+## Creating a Project in Django
+
+```
+django-admin startproject ll_project .
+```
+
+
+## Creating a database
+
+```
+python manage.py migrate
+```
+
+## Run the server
+
+```
+python manage.py runserver
+```
+
+## Starting an app
+
+```
+source ll_env/bin/activate
+python manage.py startapp learning_logs
+```
