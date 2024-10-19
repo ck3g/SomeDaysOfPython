@@ -61,3 +61,9 @@ python manage.py runserver
 source ll_env/bin/activate
 python manage.py startapp learning_logs
 ```
+
+## Create migrations
+
+```
+python manage.py makemigrations learning_logs
+```
