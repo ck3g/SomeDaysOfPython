@@ -11,4 +11,9 @@ python -m pip install --user pandas
 
 ## Check current API limits
 
-https://api.github.com/rate_limit
+* https://api.github.com/rate_limit
+
+## Plotly overview
+
+* https://plotly.com/python/plotly-express/
+* https://plotly.com/python/styling-plotly-express/
