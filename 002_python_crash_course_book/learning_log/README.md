@@ -77,3 +77,9 @@ python manage.py createsuperuser
 * admin
 * admin@example.com
 * password
+
+## Django Shell
+
+```
+python manage.py shell
+```
