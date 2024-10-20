@@ -67,3 +67,13 @@ python manage.py startapp learning_logs
 ```
 python manage.py makemigrations learning_logs
 ```
+
+## Set up a superuser
+
+```
+python manage.py createsuperuser
+```
+
+* admin
+* admin@example.com
+* password
