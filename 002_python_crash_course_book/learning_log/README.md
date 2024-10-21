@@ -83,3 +83,9 @@ python manage.py createsuperuser
 ```
 python manage.py shell
 ```
+
+## Bootstrap
+
+```
+pip isntall django-bootstrap5
+```
