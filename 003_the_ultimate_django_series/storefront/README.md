@@ -6,11 +6,7 @@
 pipenv intall django
 ```
 
-Created
-
-```
-Virtualenv location: ~/.local/share/virtualenvs/storefront-CKEJUuzG
-```
+Use `pipenv --venv` to see environment location
 
 ### Launch the environment
 
