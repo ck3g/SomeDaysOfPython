@@ -13,6 +13,12 @@ class Collection(models.Model):
     """Represents product collection (category)"""
 
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        "Product",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="+",  # related_name="+" tells Django not to create reverse relationship
+    )
 
 
 class Product(models.Model):
