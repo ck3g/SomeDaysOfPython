@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.FloatField()
+    # In Django it's not necessary to define relations in both models.
+    # The relationship is going to be created automatically from Product.
+    # By default, the relation will be called `product_set`.
+
+
 class Collection(models.Model):
     """Represents product collection (category)"""
 
@@ -14,6 +22,9 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
+    promotions = models.ManyToManyField(
+        Promotion
+    )  # Optionally can set related_name="products"
 
 
 class Customer(models.Model):
