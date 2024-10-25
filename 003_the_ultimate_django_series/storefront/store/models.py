@@ -20,6 +20,12 @@ class Collection(models.Model):
         related_name="+",  # related_name="+" tells Django not to create reverse relationship
     )
 
+    def __str__(self) -> str:
+        return str(self.title)
+
+    class Meta:
+        ordering = ["title"]
+
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
@@ -32,6 +38,12 @@ class Product(models.Model):
     promotions = models.ManyToManyField(
         Promotion
     )  # Optionally can set related_name="products"
+
+    def __str__(self) -> str:
+        return str(self.title)
+
+    class Meta:
+        ordering = ["title"]
 
 
 class Customer(models.Model):
