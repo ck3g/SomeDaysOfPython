@@ -30,3 +30,15 @@ class CustomerAdmin(admin.ModelAdmin):
     list_editable = ["membership"]
     ordering = ["first_name", "last_name"]
     list_per_page = 10
+
+
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "customer",
+        "payment_status",
+        "placed_at",
+    ]
+    list_per_page = 10
+    list_select_related = ["customer"]
