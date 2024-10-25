@@ -5,9 +5,10 @@ from . import models
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["title", "unit_price", "inventory_status"]
+    list_display = ["title", "collection_title", "unit_price", "inventory_status"]
     list_editable = ["unit_price"]
     list_per_page = 10
+    list_select_related = ["collection"]
 
     @admin.display(ordering="inventory")
     def inventory_status(self, product):
@@ -15,6 +16,9 @@ class ProductAdmin(admin.ModelAdmin):
             return "Low"
 
         return "OK"
+
+    def collection_title(self, product):
+        return product.collection.title
 
 
 admin.site.register(models.Collection)
