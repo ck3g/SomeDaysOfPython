@@ -63,9 +63,20 @@ def collection_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view()
+@api_view(["GET", "DELETE"])
 def collection_detail(request, pk):
     # pylint: disable=no-member
     collection = get_object_or_404(Collection, pk=pk)
-    serializer = CollectionSerializer(collection)
-    return Response(serializer.data)
+    if request.method == "GET":
+        serializer = CollectionSerializer(collection)
+        return Response(serializer.data)
+    if request.method == "DELETE":
+        if collection.products.count() > 0:
+            return Response(
+                {
+                    "error": "Collection cannot be deleted because it associated with products"
+                },
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+        collection.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
