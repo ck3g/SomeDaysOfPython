@@ -64,5 +64,8 @@ def collection_list(request):
 
 
 @api_view()
-def collection_detail(request, id):
-    return Response("ok")
+def collection_detail(request, pk):
+    # pylint: disable=no-member
+    collection = get_object_or_404(Collection, pk=pk)
+    serializer = CollectionSerializer(collection)
+    return Response(serializer.data)
