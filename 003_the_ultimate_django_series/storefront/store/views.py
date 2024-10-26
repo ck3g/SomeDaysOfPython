@@ -19,15 +19,22 @@ def product_list(request):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response("ok")
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view()
-def product_detail(request, pk):
+@api_view(["GET", "PUT", "PATCH"])
+def product_detail(request, id):
     # pylint: disable=no-member
-    product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+    product = get_object_or_404(Product, pk=id)
+
+    if request.method == "GET":
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    elif request.method == "PUT" or request.method == "PATCH":
+        serializer = ProductSerializer(product, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 @api_view()
