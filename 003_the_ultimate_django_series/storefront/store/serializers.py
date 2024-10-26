@@ -13,7 +13,15 @@ class ProductSerializer(serializers.ModelSerializer):
     # requires `serializers.ModelSerializer`
     class Meta:
         model = Product
-        fields = ["id", "title", "unit_price", "collection"]
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "inventory",
+            "description",
+            "unit_price",
+            "collection",
+        ]
         # fields = "__all__" # optionally can include all fields, but that's considered a bad practice
 
     # Manual way (needs to inherit from `serializers.Serializer`)
@@ -32,3 +40,15 @@ class ProductSerializer(serializers.ModelSerializer):
 
     # def calculate_tax(self, product: Product):
     #     return product.unit_price * Decimal(1.1)
+
+    # The way to override create or update actions
+    # def create(self, validated_data):
+    #     product = Product(**validated_data)
+    #     product.other = 1
+    #     product.save()
+    #     return product
+
+    # def update(self, instance, validated_data):
+    #     instance.unit_price = validated_data.get('unit_price')
+    #     instance.save()
+    #     return instance
