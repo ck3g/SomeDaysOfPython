@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -51,7 +52,7 @@ def product_detail(request, id):
 def collection_list(request):
     if request.method == "GET":
         # pylint: disable=no-member
-        queryset = Collection.objects.all()
+        queryset = Collection.objects.annotate(products_count=Count("products")).all()
         serializer = CollectionSerializer(
             queryset, many=True, context={"request": request}
         )
