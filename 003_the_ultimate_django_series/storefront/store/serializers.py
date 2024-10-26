@@ -6,7 +6,14 @@ from .models import Product, Collection
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ["id", "title"]
+        fields = ["id", "title", "products_count"]
+
+    products_count = serializers.SerializerMethodField(
+        method_name="calculate_products_count"
+    )
+
+    def calculate_products_count(self, collection: Collection) -> int:
+        return collection.products.count()
 
 
 class ProductSerializer(serializers.ModelSerializer):
