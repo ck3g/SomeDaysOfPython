@@ -8,7 +8,10 @@ from .serializers import ProductSerializer
 
 @api_view()
 def product_list(request):
-    return Response("ok")
+    # pylint: disable=no-member
+    queryset = Product.objects.all()
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 
 @api_view()
