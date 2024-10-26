@@ -63,12 +63,17 @@ def collection_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "DELETE"])
+@api_view(["GET", "PUT", "DELETE"])
 def collection_detail(request, pk):
     # pylint: disable=no-member
     collection = get_object_or_404(Collection, pk=pk)
     if request.method == "GET":
         serializer = CollectionSerializer(collection)
+        return Response(serializer.data)
+    if request.method == "PUT":
+        serializer = CollectionSerializer(collection, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)
     if request.method == "DELETE":
         if collection.products.count() > 0:
