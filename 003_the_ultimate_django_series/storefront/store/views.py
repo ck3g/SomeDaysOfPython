@@ -1,19 +1,19 @@
-from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from .models import Product, Collection, OrderItem
-from .serializers import ProductSerializer, CollectionSerializer
+from .models import Product, Collection, OrderItem, Review
+from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
 
 # CHECK THE GIT HISTORY OF THIS FILE, THERE ARE A LOT OF DIFFERENT WAYS TO IMPLEMENTS ENDPOINTS
 
 
+# pylint: disable=no-member
+
+
 class ProductViewSet(ModelViewSet):
-    # pylint: disable=no-member
     queryset = Product.objects.select_related("collection").all()
     lookup_field = "id"  # otherwise the rest framework expects `pk`
 
@@ -57,3 +57,13 @@ class CollectionViewSet(ModelViewSet):
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
             )
         return super().destroy(request, *args, **kwargs)
+
+
+class ReviewViewSet(ModelViewSet):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.filter(product_id=self.kwargs["product_id"])
+
+    def get_serializer_context(self):
+        return {"product_id": self.kwargs["product_id"]}
