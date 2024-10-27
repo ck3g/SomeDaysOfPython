@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Product, Collection
 from .serializers import ProductSerializer, CollectionSerializer
 
@@ -26,20 +26,11 @@ class ProductList(ListCreateAPIView):
         return {"request": self.request}
 
 
-class ProductDetail(APIView):
-    def get(self, request, id):
-        # pylint: disable=no-member
-        product = get_object_or_404(Product, pk=id)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data)
-
-    def put(self, request, id):
-        # pylint: disable=no-member
-        product = get_object_or_404(Product, pk=id)
-        serializer = ProductSerializer(product, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+class ProductDetail(RetrieveUpdateDestroyAPIView):
+    # pylint: disable=no-member
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = "id"  # otherwise the rest framework expects `pk`
 
     def delete(self, request, id):
         # pylint: disable=no-member
@@ -64,19 +55,13 @@ class CollectionList(ListCreateAPIView):
         return {"request": self.request}
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def collection_detail(request, pk):
+class CollectionDetail(RetrieveUpdateDestroyAPIView):
     # pylint: disable=no-member
-    collection = get_object_or_404(Collection, pk=pk)
-    if request.method == "GET":
-        serializer = CollectionSerializer(collection)
-        return Response(serializer.data)
-    if request.method == "PUT":
-        serializer = CollectionSerializer(collection, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-    if request.method == "DELETE":
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
+    def delete(self, request, pk):
+        collection = get_object_or_404(Collection, pk=pk)
         if collection.products.count() > 0:
             return Response(
                 {
