@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Product, Collection, OrderItem, Review
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
+from .pagination import DefaultPagination
 
 # CHECK THE GIT HISTORY OF THIS FILE, THERE ARE A LOT OF DIFFERENT WAYS TO IMPLEMENTS ENDPOINTS
 
@@ -19,6 +20,8 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     lookup_field = "id"  # otherwise the rest framework expects `pk`
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    # pagination_class = PageNumberPagination  # only for products
+    pagination_class = DefaultPagination
     filterset_fields = ["collection_id"]
     search_fields = ["title", "description"]
     ordering_fields = ["unit_price", "last_update"]
