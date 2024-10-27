@@ -14,13 +14,15 @@ from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializ
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.select_related("collection").all()
     lookup_field = "id"  # otherwise the rest framework expects `pk`
 
-    # Alternatively can use methods
-    # def get_queryset(self):
-    #     # pylint: disable=no-member
-    #     return Product.objects.select_related("collection").all()
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        collection_id = self.request.query_params.get("collection_id")
+        if collection_id is not None:
+            queryset = queryset.filter(collection_id=collection_id)
+
+        return queryset
 
     def get_serializer_class(self):
         return ProductSerializer
