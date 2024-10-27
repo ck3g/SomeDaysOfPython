@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,15 +15,10 @@ from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializ
 
 
 class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
     lookup_field = "id"  # otherwise the rest framework expects `pk`
-
-    def get_queryset(self):
-        queryset = Product.objects.all()
-        collection_id = self.request.query_params.get("collection_id")
-        if collection_id is not None:
-            queryset = queryset.filter(collection_id=collection_id)
-
-        return queryset
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["collection_id"]
 
     def get_serializer_class(self):
         return ProductSerializer
