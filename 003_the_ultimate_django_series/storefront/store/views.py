@@ -3,11 +3,17 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
+from rest_framework.mixins import CreateModelMixin
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from .models import Product, Collection, OrderItem, Review
-from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
+from .models import Product, Collection, OrderItem, Review, Cart
+from .serializers import (
+    ProductSerializer,
+    CollectionSerializer,
+    ReviewSerializer,
+    CartSerializer,
+)
 from .pagination import DefaultPagination
 
 # CHECK THE GIT HISTORY OF THIS FILE, THERE ARE A LOT OF DIFFERENT WAYS TO IMPLEMENTS ENDPOINTS
@@ -71,3 +77,9 @@ class ReviewViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {"product_id": self.kwargs["product_id"]}
+
+
+class CartViewSet(CreateModelMixin, GenericViewSet):
+    serializer_class = CartSerializer
+    lookup_field = "id"
+    queryset = Cart.objects.all()
