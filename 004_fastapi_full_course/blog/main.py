@@ -13,6 +13,11 @@ def show(id):
     return {"data": {"id": id}}
 
 
+@app.get("/blog/{id}/comments")
+def comments(id):
+    return {"data": {"comments": id}}
+
+
 @app.get("/about")
 def about():
     return {"data": {"about": "page"}}
