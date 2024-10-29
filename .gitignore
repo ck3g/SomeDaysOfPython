@@ -3,5 +3,6 @@ __pycache__/
 .DS_Store
 
 ll_env/
+fastapi-blog-env/
 
 *.sqlite3
