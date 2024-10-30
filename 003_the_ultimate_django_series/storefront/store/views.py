@@ -12,6 +12,7 @@ from rest_framework.mixins import (
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Product, Collection, OrderItem, Review, Cart, CartItem, Customer
 from .serializers import (
@@ -122,6 +123,7 @@ class CustomerViewSet(
 ):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
 
     # detail=False produces /customers/me
     # detail=True produces /customers/:id/me
