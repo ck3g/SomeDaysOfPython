@@ -25,7 +25,7 @@ from .serializers import (
     CustomerSerializer,
 )
 from .pagination import DefaultPagination
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
 
 # CHECK THE GIT HISTORY OF THIS FILE, THERE ARE A LOT OF DIFFERENT WAYS TO IMPLEMENTS ENDPOINTS
 
@@ -123,6 +123,7 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    # permission_classes = [FullDjangoModelPermissions]
     permission_classes = [IsAdminUser]
 
     # detail=False produces /customers/me
