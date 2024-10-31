@@ -33,6 +33,7 @@ from .serializers import (
     UpdateCartItemSerializer,
     CustomerSerializer,
     OrderSerializer,
+    CreateOrderSerializer,
 )
 from .pagination import DefaultPagination
 from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
@@ -152,8 +153,15 @@ class CustomerViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateOrderSerializer
+        return OrderSerializer
+
+    def get_serializer_context(self, *args, **kwargs):
+        return {"user_id": self.request.user.id}
 
     def get_queryset(self):
         current_user = self.request.user
