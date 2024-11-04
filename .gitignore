@@ -1,6 +1,9 @@
 __pycache__/
 .pytest_cache
 .DS_Store
+node_modules/
+.cache/
+dist/
 
 ll_env/
 fastapi-blog-env/
