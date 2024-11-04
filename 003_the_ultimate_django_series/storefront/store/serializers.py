@@ -12,7 +12,9 @@ from .models import (
     Order,
     OrderItem,
 )
-from .signals import order_created
+from .signals import order_created  # pylint: disable=import-error
+
+# pylint: disable=no-member
 
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -23,7 +25,19 @@ class CollectionSerializer(serializers.ModelSerializer):
     products_count = serializers.IntegerField(read_only=True)
 
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ["id", "image"]
+
+    def create(self, validated_data):
+        product_id = self.context["product_id"]
+        return ProductImage.objects.create(product_id=product_id, **validated_data)
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True, read_only=True)
+
     # requires `serializers.ModelSerializer`
     class Meta:
         model = Product
@@ -35,6 +49,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "unit_price",
             "collection",
+            "images",
         ]
         # fields = "__all__" # optionally can include all fields, but that's considered a bad practice
 
@@ -222,13 +237,3 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ["payment_status"]
-
-
-class ProductImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductImage
-        fields = ["id", "image"]
-
-    def create(self, validated_data):
-        product_id = self.context["product_id"]
-        return ProductImage.objects.create(product_id=product_id, **validated_data)

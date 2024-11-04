@@ -48,7 +48,7 @@ from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related("images").all()
     lookup_field = "id"  # otherwise the rest framework expects `pk`
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # pagination_class = PageNumberPagination  # only for products
