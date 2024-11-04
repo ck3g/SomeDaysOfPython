@@ -15,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import (
     Product,
+    ProductImage,
     Collection,
     OrderItem,
     Review,
@@ -25,6 +26,7 @@ from .models import (
 )
 from .serializers import (
     ProductSerializer,
+    ProductImageSerializer,
     CollectionSerializer,
     ReviewSerializer,
     CartSerializer,
@@ -191,3 +193,13 @@ class OrderViewSet(ModelViewSet):
 
         customer = Customer.objects.get(user_id=current_user.id)
         return Order.objects.filter(customer_id=customer.id).all()
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs["product_id"])
+
+    def get_serializer_context(self):
+        return {"product_id": self.kwargs["product_id"]}
