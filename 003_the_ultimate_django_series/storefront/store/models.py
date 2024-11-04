@@ -5,6 +5,8 @@ from django.db import models
 
 from uuid import uuid4
 
+from . import validators
+
 # pylint: disable=no-member
 
 
@@ -61,7 +63,14 @@ class ProductImage(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="store/images")
+    image = models.ImageField(
+        upload_to="store/images", validators=[validators.validate_file_size]
+    )
+    # Example uploading files with validation
+    # from django.core.validators import FileExtensionValidator
+    # image = models.FileField(
+    #     upload_to="store/images", validators=[FileExtensionValidator(allowed_extensions=["pdf"])]
+    # )
 
 
 class Customer(models.Model):
