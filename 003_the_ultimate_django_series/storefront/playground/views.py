@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product
 from django.http import HttpResponse
+from templated_mail.mail import BaseEmailMessage
 
 
 def say_hello(request):
@@ -28,6 +29,19 @@ def send_emails(request):
         )
         message.attach_file("playground/static/test-attachment.txt")
         message.send()
+    except BadHeaderError:
+        return HttpResponse("Bad Header Error")
+
+    return HttpResponse("Emails has been sent")
+
+
+def send_templated_emails(request):
+    try:
+        message = BaseEmailMessage(
+            template_name="emails/hello.html",
+            context={"name": "John Doe"},
+        )
+        message.send(to=["jonh@doe.com"])
     except BadHeaderError:
         return HttpResponse("Bad Header Error")
 
