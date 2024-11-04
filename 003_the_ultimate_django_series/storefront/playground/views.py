@@ -1,6 +1,8 @@
+from django.core.mail import send_mail, mail_admins, BadHeaderError, EmailMessage
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product
+from django.http import HttpResponse
 
 
 def say_hello(request):
@@ -13,3 +15,29 @@ def products(request):
     )
 
     return render(request, "hello.html", {"name": "John", "products": list(query_set)})
+
+
+def send_emails(request):
+    try:
+        # one way
+        # send_mail("subject", "message", "test@example.com", ["john@doe.com"])
+
+        # another way
+        message = EmailMessage(
+            "subject", "message", "test@example.com", ["john@doe.com"]
+        )
+        message.attach_file("playground/static/test-attachment.txt")
+        message.send()
+    except BadHeaderError:
+        return HttpResponse("Bad Header Error")
+
+    return HttpResponse("Emails has been sent")
+
+
+def send_admins_emails(request):
+    try:
+        mail_admins("subject", "message", html_message="<h2>message</h2>")
+    except BadHeaderError:
+        return HttpResponse("Bad Header Error")
+
+    return HttpResponse("Emails has been sent")
