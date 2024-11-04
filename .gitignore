@@ -6,3 +6,5 @@ ll_env/
 fastapi-blog-env/
 
 *.sqlite3
+
+003_the_ultimate_django_series/storefront/media/
