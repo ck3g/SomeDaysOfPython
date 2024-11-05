@@ -25,3 +25,9 @@ django-admin startproject storefront .
 ```
 docker run --rm -it -p 3000:80 -p 2525:25 rnwood/smtp4dev
 ```
+
+### Run redis
+
+```
+docker run -d -p 6379:6379 redis
+```
