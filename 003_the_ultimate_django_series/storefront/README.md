@@ -45,3 +45,9 @@ It needs to be run together with celery worker
 ```
 celery -A storefront beat
 ```
+
+### Run celery flower
+
+```
+celery -A storefront flower
+```
