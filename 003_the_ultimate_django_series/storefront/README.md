@@ -51,3 +51,9 @@ celery -A storefront beat
 ```
 celery -A storefront flower
 ```
+
+### Using pytest-watch
+
+```
+ptw
+```
