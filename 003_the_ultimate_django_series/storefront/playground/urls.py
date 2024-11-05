@@ -8,4 +8,5 @@ urlpatterns = [
     path("send_emails/", views.send_emails),
     path("send_templated_emails/", views.send_templated_emails),
     path("send_admins_emails/", views.send_admins_emails),
+    path("background_task/", views.background_task),
 ]

@@ -1,9 +1,10 @@
 from django.core.mail import send_mail, mail_admins, BadHeaderError, EmailMessage
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product
 from django.http import HttpResponse
+from store.models import Product
 from templated_mail.mail import BaseEmailMessage
+from .tasks import notify_customers
 
 
 def say_hello(request):
@@ -55,3 +56,8 @@ def send_admins_emails(request):
         return HttpResponse("Bad Header Error")
 
     return HttpResponse("Emails has been sent")
+
+
+def background_task(request):
+    notify_customers.delay("Hello")
+    return HttpResponse("Background task has been triggered")
