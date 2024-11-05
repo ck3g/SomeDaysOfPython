@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.mark.django_db
-class TestCreateColelction:
+class TestCreateCollection:
     # @pytest.mark.skip # Skipping tests
     def test_if_user_is_anonymous_returns_401(self):
         # AAA (Arrange, Act, Assert)

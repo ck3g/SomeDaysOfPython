@@ -1,0 +1,7 @@
+{
+  "python.testing.pytestArgs": [
+    "003_the_ultimate_django_series/storefront"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}
