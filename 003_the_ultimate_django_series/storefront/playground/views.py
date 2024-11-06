@@ -1,7 +1,8 @@
+from django.core.cache import cache
 from django.core.mail import send_mail, mail_admins, BadHeaderError, EmailMessage
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from store.models import Product
 from templated_mail.mail import BaseEmailMessage
 import requests
@@ -65,5 +66,10 @@ def background_task(request):
 
 
 def slow_endpoint(request):
-    requests.get("https://httpbin.org/delay/2")
-    return HttpResponse("Slow response")
+    key = "httpbin_result"
+    if cache.get(key) is None:
+        response = requests.get("https://httpbin.org/delay/2")
+        data = response.json()
+        cache.set(key, data)
+
+    return JsonResponse(cache.get(key))
