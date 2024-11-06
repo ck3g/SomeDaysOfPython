@@ -11,3 +11,4 @@ fastapi-blog-env/
 *.sqlite3
 
 003_the_ultimate_django_series/storefront/media/
+003_the_ultimate_django_series/storefront/static/

@@ -57,3 +57,11 @@ celery -A storefront flower
 ```
 ptw
 ```
+
+### Collect static files
+
+Collects all the static files from all the apps and stores them into STATIC_ROOT folder. Sort of bundling assets I assume.
+
+```
+python manage.py collectstatic
+```
