@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from store.models import Product
 from templated_mail.mail import BaseEmailMessage
+import requests
 from .tasks import notify_customers
 
 
@@ -61,3 +62,8 @@ def send_admins_emails(request):
 def background_task(request):
     notify_customers.delay("Hello")
     return HttpResponse("Background task has been triggered")
+
+
+def slow_endpoint(request):
+    requests.get("https://httpbin.org/delay/2")
+    return HttpResponse("Slow response")
