@@ -3,6 +3,9 @@ from django.core.mail import send_mail, mail_admins, BadHeaderError, EmailMessag
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from rest_framework.views import APIView
 from store.models import Product
 from templated_mail.mail import BaseEmailMessage
 import requests
@@ -73,3 +76,18 @@ def slow_endpoint(request):
         cache.set(key, data)
 
     return JsonResponse(cache.get(key))
+
+
+@cache_page(5 * 60)  # uses function name as a cache key
+def slow_endpoint_decorated(request):
+    response = requests.get("https://httpbin.org/delay/2")
+    data = response.json()
+    return JsonResponse(data)
+
+
+class CachedView(APIView):
+    @method_decorator(cache_page(5 * 60))
+    def get(self, request):
+        response = requests.get("https://httpbin.org/delay/2")
+        data = response.json()
+        return JsonResponse(data)
