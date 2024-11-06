@@ -49,6 +49,7 @@ from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.prefetch_related("images").all()
+    # queryset = Product.objects.all()  # simlate performance problem for locust
     lookup_field = "id"  # otherwise the rest framework expects `pk`
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # pagination_class = PageNumberPagination  # only for products
