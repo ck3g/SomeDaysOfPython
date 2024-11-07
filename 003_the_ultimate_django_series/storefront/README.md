@@ -65,3 +65,11 @@ Collects all the static files from all the apps and stores them into STATIC_ROOT
 ```
 python manage.py collectstatic
 ```
+
+### Start gunicorn
+
+If running on development environment, gunicorn will not pick any new changes in the files. Use dev server for that.
+
+```
+gunicorn storefront.wsgi
+```
