@@ -9,7 +9,10 @@ from rest_framework.views import APIView
 from store.models import Product
 from templated_mail.mail import BaseEmailMessage
 import requests
+import logging
 from .tasks import notify_customers
+
+logger = logging.getLogger(__name__)
 
 
 def say_hello(request):
@@ -90,4 +93,17 @@ class CachedView(APIView):
     def get(self, request):
         response = requests.get("https://httpbin.org/delay/2")
         data = response.json()
+        return JsonResponse(data)
+
+
+class LoggingView(APIView):
+    def get(self, request):
+        try:
+            logger.info("Calling httpbin")
+            response = requests.get("https://httpbin.org/delay/1")
+            logger.info("Received the response")
+            data = response.json()
+        except requests.ConnectionError:
+            logger.critical("httpbin is offlines")
+
         return JsonResponse(data)

@@ -11,5 +11,6 @@ urlpatterns = [
     path("background_task/", views.background_task),
     path("slow_endpoint/", views.slow_endpoint),
     path("slow_endpoint_decorated/", views.slow_endpoint_decorated),
-    path("slow_endpoint_view", views.CachedView.as_view()),
+    path("slow_endpoint_view/", views.CachedView.as_view()),
+    path("logging/", views.LoggingView.as_view()),
 ]
