@@ -73,3 +73,35 @@ If running on development environment, gunicorn will not pick any new changes in
 ```
 gunicorn storefront.wsgi
 ```
+
+### Docker
+
+#### Run in background
+
+```
+docker-compose run -d
+```
+
+#### Check tests
+
+```
+docker-compose logs tests
+```
+
+#### Watch tests
+
+```
+docker-compose logs -f tests
+```
+
+#### Run bash
+
+```
+docker-compose run web bash
+```
+
+#### Seed
+
+```
+docker-compose run web python manage.py seed_db
+```
