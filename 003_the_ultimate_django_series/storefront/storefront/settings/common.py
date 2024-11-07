@@ -16,19 +16,11 @@ from datetime import timedelta
 from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-c$3_aqa0_v4@hg^peoj_uww1#p^vf4*co(x820$(rv$g1^1oc+"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -66,9 +58,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if DEBUG:
-    MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
-
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
@@ -97,20 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "storefront.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "storefront",
-        "HOST": "localhost",
-        "USER": "root",
-        "PASSWORD": "",
-    }
-}
 
 
 # Password validation
