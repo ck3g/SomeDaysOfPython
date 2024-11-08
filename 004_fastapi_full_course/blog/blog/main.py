@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-from .schema import Blog
+from . import schema, models, database
 
 app = FastAPI()
 
 
 @app.post("/blog")
-def create(request: Blog):
+def create(request: schema.Blog):
     return {"title": request.title, "body": request.body}
