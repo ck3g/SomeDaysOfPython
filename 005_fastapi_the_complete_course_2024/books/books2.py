@@ -89,6 +89,13 @@ async def create_book(book_request: BookRequest):
     BOOKS.append(find_book_id(new_book))
 
 
+@app.post("/books")
+async def update_book(updated_book: BookRequest):
+    for i, book in enumerate(BOOKS):
+        if book.id == updated_book.id:
+            BOOKS[i] = updated_book
+
+
 def find_book_id(book: Book):
     book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1
 
