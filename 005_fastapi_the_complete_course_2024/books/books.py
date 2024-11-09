@@ -33,14 +33,19 @@ BOOKS = [
 
 
 @app.get("/books")
-async def read_all_books(category: str | None = None):
-    if category is None:
-        return BOOKS
-
+async def read_all_books(category: str | None = None, author: str | None = None):
     books = []
     for book in BOOKS:
-        if book.get("category").casefold() == category.casefold():
-            books.append(book)
+        if (
+            category is not None
+            and book.get("category").casefold() != category.casefold()
+        ):
+            continue
+
+        if author is not None and book.get("author").casefold() != author.casefold():
+            continue
+
+        books.append(book)
 
     return books
 
