@@ -73,6 +73,16 @@ async def read_book(book_id: int):
     return {}
 
 
+@app.get("/books/")
+async def read_book_by_raing(book_rating: int):
+    books = []
+    for book in BOOKS:
+        if book.rating == book_rating:
+            books.append(book)
+
+    return books
+
+
 @app.post("/books")
 async def create_book(book_request: BookRequest):
     new_book = Book(**book_request.model_dump())
