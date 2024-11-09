@@ -24,12 +24,25 @@ BOOKS = [
         "author": "Eric Matthes",
         "category": "Programming",
     },
+    {
+        "title": "The shortest history of Germany",
+        "author": "James Hawes",
+        "category": "History",
+    },
 ]
 
 
 @app.get("/books")
-async def read_all_books():
-    return BOOKS
+async def read_all_books(category: str | None = None):
+    if category is None:
+        return BOOKS
+
+    books = []
+    for book in BOOKS:
+        if book.get("category").casefold() == category.casefold():
+            books.append(book)
+
+    return books
 
 
 @app.get("/books/{title}")
