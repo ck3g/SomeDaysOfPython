@@ -54,6 +54,15 @@ async def read_book(title: str):
     return {}
 
 
-@app.post("/book")
+@app.post("/books")
 async def create_book(new_book=Body()):
     BOOKS.append(new_book)
+
+
+@app.put("/books")
+async def update_book(updated_book=Body()):
+    for i, book in enumerate(BOOKS):
+        if book.get("title").casefold() == updated_book.get("title").casefold():
+            BOOKS[i] = updated_book
+
+    return updated_book
