@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, Query
 from pydantic import BaseModel, Field
 
 
@@ -29,8 +29,8 @@ class BookRequest(BaseModel):
     title: str = Field(min_length=3)
     author: str = Field(min_length=1)
     description: str = Field(min_length=0, max_length=100)
-    rating: int = Field(gt=-1, lt=6)
-    published_date: int = Field(gt=1900, lt=2030)
+    rating: int = Field(ge=1, le=5)
+    published_date: int = Field(ge=1900, le=2030)
 
     model_config = {
         "json_schema_extra": {
@@ -79,7 +79,7 @@ BOOKS = [
 
 
 @app.get("/books")
-async def read_all_books(published_date: Optional[int] = None):
+async def read_all_books(published_date: Optional[int] = Query(None, ge=1900, le=2030)):
     if published_date is None:
         return BOOKS
 
@@ -101,7 +101,7 @@ async def read_book(book_id: int = Path(gt=0)):
 
 
 @app.get("/books/")
-async def read_book_by_raing(book_rating: int):
+async def read_book_by_raing(book_rating: int = Query(ge=1, le=5)):
     books = []
     for book in BOOKS:
         if book.rating == book_rating:
