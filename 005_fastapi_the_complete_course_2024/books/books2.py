@@ -79,8 +79,16 @@ BOOKS = [
 
 
 @app.get("/books")
-async def read_all_books():
-    return BOOKS
+async def read_all_books(published_date: Optional[int] = None):
+    if published_date is None:
+        return BOOKS
+
+    books = []
+    for book in BOOKS:
+        if book.published_date == published_date:
+            books.append(book)
+
+    return books
 
 
 @app.get("/books/{book_id}")
