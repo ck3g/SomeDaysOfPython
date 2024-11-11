@@ -7,11 +7,14 @@ from pydantic import BaseModel, Field
 import models
 from models import Todos
 from database import engine, SessionLocal
+from routers import auth
 
 app = FastAPI()
 
 # only runs then the database file is not exists
 models.Base.metadata.create_all(bind=engine)
+
+app.include_router(auth.router)
 
 
 def get_db():
