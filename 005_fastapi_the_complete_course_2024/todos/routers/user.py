@@ -45,6 +45,7 @@ async def get_user(user: UserDependency, db: DBDependency):
         "first_name": user_model.first_name,
         "last_name": user_model.last_name,
         "role": user_model.role,
+        "phone_number": user_model.phone_number,
     }
 
 
