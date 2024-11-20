@@ -54,7 +54,9 @@ def test_finish(cards_db, start_summary, start_state):
     assert card.state == "done"
 
 
-@pytest.mark.parametrize("start_state", ["done", "in prog", "todo"])
+@pytest.mark.parametrize(
+    "start_state", ["done", pytest.param("in prog", marks=pytest.mark.smoke), "todo"]
+)
 def test_finish_simple(cards_db, start_state):
     c = Card("write a book", state=start_state)
     index = cards_db.add_card(c)
