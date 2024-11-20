@@ -1,6 +1,9 @@
 import pytest
 from cards import Card
 
+# run with `pytest -v -m finish`
+pytestmark = pytest.mark.finish
+
 
 ###
 # NO PARAMETRIZE EXAMPLE
