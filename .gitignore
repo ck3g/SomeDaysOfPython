@@ -15,3 +15,6 @@ fastapi-blog-env/
 003_the_ultimate_django_series/storefront/static/
 
 003_the_ultimate_django_series/storefront/celerybeat-schedule
+
+.coverage
+htmlcov
