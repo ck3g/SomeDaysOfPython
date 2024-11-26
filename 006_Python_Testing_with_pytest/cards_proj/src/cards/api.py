@@ -1,6 +1,7 @@
 """
 API for the cards project
 """
+
 from dataclasses import asdict
 from dataclasses import dataclass
 from dataclasses import field
@@ -26,6 +27,7 @@ class Card:
     @classmethod
     def from_dict(cls, d):
         return Card(**d)
+
     def to_dict(self):
         return asdict(self)
 
@@ -75,15 +77,16 @@ class CardsDB:
                 if (t["owner"] == owner and t["state"] == state)
             ]
         elif owner is not None:
-            return [
-                Card.from_dict(t) for t in all if t["owner"] == owner
-            ]
+            return [Card.from_dict(t) for t in all if t["owner"] == owner]
         elif state is not None:
-            return [
-                Card.from_dict(t) for t in all if t["state"] == state
-            ]
+            return [Card.from_dict(t) for t in all if t["state"] == state]
         else:
             return [Card.from_dict(t) for t in all]
+
+    def list_done_cards(self):
+        """Return the 'done' cards."""
+        done_cards = self.list_cards(state="done")
+        return done_cards
 
     def count(self) -> int:
         """Return the number of cards in db."""

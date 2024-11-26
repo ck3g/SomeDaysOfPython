@@ -1,4 +1,5 @@
 """Command Line Interface (CLI) for cards project."""
+
 import os
 from io import StringIO
 import pathlib
@@ -21,9 +22,7 @@ def version():
 
 
 @app.command()
-def add(
-    summary: List[str], owner: str = typer.Option(None, "-o", "--owner")
-):
+def add(summary: List[str], owner: str = typer.Option(None, "-o", "--owner")):
     """Add a card to db."""
     summary = " ".join(summary) if summary else None
     with cards_db() as db:
@@ -63,6 +62,30 @@ def list_cards(
         print(out.getvalue())
 
 
+def print_cards_list(the_cards):
+    table = Table(box=rich.box.SIMPLE)
+    table.add_column("ID")
+    table.add_column("state")
+    table.add_column("owner")
+    table.add_column("summary")
+    for t in the_cards:
+        owner = "" if t.owner is None else t.owner
+        table.add_row(str(t.id), t.state, owner, t.summary)
+    out = StringIO()
+    rich.print(table, file=out)
+    print(out.getvalue())
+
+
+@app.command("done")
+def list_done_cards():
+    """
+    List 'done' cards in db.
+    """
+    with cards_db() as db:
+        the_cards = db.list_done_cards()
+        print_cards_list(the_cards)
+
+
 @app.command()
 def update(
     card_id: int,
@@ -73,9 +96,7 @@ def update(
     summary = " ".join(summary) if summary else None
     with cards_db() as db:
         try:
-            db.update_card(
-                card_id, cards.Card(summary, owner, state=None)
-            )
+            db.update_card(card_id, cards.Card(summary, owner, state=None))
         except cards.InvalidCardId:
             print(f"Error: Invalid card id {card_id}")
 
