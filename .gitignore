@@ -18,3 +18,4 @@ fastapi-blog-env/
 
 .coverage
 htmlcov
+.tox
