@@ -2,6 +2,7 @@ from unittest import mock
 
 import cards
 import pytest
+import shlex
 from cards.cli import app
 from typer.testing import CliRunner
 
@@ -12,6 +13,13 @@ runner = CliRunner()
 def mock_cardsdb():
     with mock.patch.object(cards, "CardsDB", autospec=True) as CardsDB:
         yield CardsDB.return_value
+
+
+def cards_cli(command_string):
+    command_list = shlex.split(command_string)
+    result = runner.invoke(app, command_list)
+    output = result.stdout.rstrip()
+    return output
 
 
 def test_mock_version():
@@ -42,3 +50,10 @@ def test_config(mock_cardsdb):
     mock_cardsdb.path.return_value = "/foo/"
     result = runner.invoke(app, ["config"])
     assert result.stdout.rstrip() == "/foo/"
+
+
+# More in https://docs.python.org/3/library/unittest.mock.html#unittest.mock.Mock.assert_called
+def test_add_with_owner(mock_cardsdb):
+    cards_cli("add some task -o brian")
+    expected = cards.Card("some task", owner="brian", state="todo")
+    mock_cardsdb.add_card.assert_called_with(expected)
