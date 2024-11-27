@@ -76,3 +76,42 @@ def test_id_list(cards_db, starting_card):
     cards_db.finish(index)
     card = cards_db.get_card(index)
     assert card.state == "done"
+
+
+text_variants = {
+    "Short": "x",
+    "With Spaces": "x y z",
+    "End In Spaces": "x   ",
+    "Mixed Case": "SuMmArY wItH MiXeD cAsE",
+    "Unicode": "Какая-то задача",
+    "Newlines": "a\nb\nc",
+    "Tabs": "a\tb\tc",
+}
+
+
+@pytest.mark.parametrize("variant", text_variants.values(), ids=text_variants.keys())
+def test_summary_variants(cards_db, variant):
+    i = cards_db.add_card(Card(summary=variant))
+    c = cards_db.get_card(i)
+    assert c.summary == variant
+
+
+def text_variants_fn():
+    variants = {
+        "Short": "x",
+        "With Spaces": "x y z",
+        "End In Spaces": "x   ",
+        "Mixed Case": "SuMmArY wItH MiXeD cAsE",
+        "Unicode": "Какая-то задача",
+        "Newlines": "a\nb\nc",
+        "Tabs": "a\tb\tc",
+    }
+    for key, value in variants.items():
+        yield pytest.param(value, id=key)
+
+
+@pytest.mark.parametrize("variant", text_variants_fn())
+def test_summary(cards_db, variant):
+    i = cards_db.add_card(Card(summary=variant))
+    c = cards_db.get_card(i)
+    assert c.summary == variant
