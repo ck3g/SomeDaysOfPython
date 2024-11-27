@@ -50,3 +50,18 @@ def test_id_lambda(cards_db, starting_card):
     cards_db.finish(index)
     card = cards_db.get_card(index)
     assert card.state == "done"
+
+
+c_list = [
+    Card("foo", state="todo"),
+    pytest.param(Card("foo", state="in prog"), id="special"),
+    Card("foo", state="done"),
+]
+
+
+@pytest.mark.parametrize("starting_card", c_list, ids=card_state)
+def test_id_param(cards_db, starting_card):
+    index = cards_db.add_card(starting_card)
+    cards_db.finish(index)
+    card = cards_db.get_card(index)
+    assert card.state == "done"
