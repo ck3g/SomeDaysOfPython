@@ -65,3 +65,14 @@ def test_id_param(cards_db, starting_card):
     cards_db.finish(index)
     card = cards_db.get_card(index)
     assert card.state == "done"
+
+
+id_list = ["todo", "in prog", "done"]
+
+
+@pytest.mark.parametrize("starting_card", card_list, ids=id_list)
+def test_id_list(cards_db, starting_card):
+    index = cards_db.add_card(starting_card)
+    cards_db.finish(index)
+    card = cards_db.get_card(index)
+    assert card.state == "done"
